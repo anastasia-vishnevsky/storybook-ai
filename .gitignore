@@ -1,0 +1,32 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Env files
+.env
+.env.*
+
+# Include .env.example
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# PyCharm files
+.idea/
+
+# Uploads and generated images
+uploads/
+*.jpg
+*.jpeg
+*.png
+
+# Streamlit
+.streamlit/

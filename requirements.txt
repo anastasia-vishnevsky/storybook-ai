@@ -1,0 +1,12 @@
+fastapi==0.115.12
+uvicorn==0.34.0
+python-dotenv==1.1.0
+transformers==4.39.3
+torch==2.2.2
+pillow==10.2.0
+python-multipart==0.0.6
+openai==1.71.0
+numpy==1.26.4
+pydantic==2.11.3
+streamlit==1.44.1
+requests==2.31.0
