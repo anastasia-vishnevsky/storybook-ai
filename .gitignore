@@ -28,5 +28,8 @@ uploads/
 *.jpeg
 *.png
 
+# Generated outputs
+generated/
+
 # Streamlit
 .streamlit/

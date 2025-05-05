@@ -1,12 +1,9 @@
-import os
 from openai import OpenAI
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
+from src.config import settings
+from src.prompts import build_story_prompt, build_gpt_system_prompt
 
 # Set up OpenAI client
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 def generate_story(caption: str) -> str:
     """
@@ -18,16 +15,12 @@ def generate_story(caption: str) -> str:
     Returns:
         str: A short and humorous story.
     """
-    prompt = (
-        f"Here is a description of an image: '{caption}'. "
-        "Write a very short (max 100 words) and very funny children's story based on this image. "
-        "The story should be playful, a bit silly, and include magical or unexpected elements."
-    )
+    prompt = build_story_prompt(caption)
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=settings.GPT_MODEL,
         messages=[
-            {"role": "system", "content": "You are a brilliant and funny children's book author."},
+            {"role": "system", "content": build_gpt_system_prompt()},
             {"role": "user", "content": prompt}
         ],
         temperature=0.9,

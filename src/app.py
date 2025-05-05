@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
-from src.utils.file_utils import save_uploaded_file
+from src.utils.file_utils import save_uploaded_file, save_image_from_url, save_story_to_file
 from src.utils.image_captioner import get_image_caption
 from src.services.story_generator import generate_story
 from src.services.cover_generator import generate_cover
@@ -34,6 +34,13 @@ async def generate_storybook(file: UploadFile = File(...)):
     # Generate cover image using DALL·E
     cover_url = generate_cover(caption)
     logger.info(f"Cover image URL: {cover_url}")
+
+    # Save generated files
+    saved_cover_path = save_image_from_url(cover_url)
+    saved_story_path = save_story_to_file(story)
+
+    logger.info(f"Cover image saved to: {saved_cover_path}")
+    logger.info(f"Story saved to: {saved_story_path}")
 
     # Return the storybook response
     return {

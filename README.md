@@ -15,6 +15,10 @@ Built with **FastAPI** and **Streamlit**.
 - Get an AI-generated children's story
 - Receive a matching storybook-style cover image
 - Simple web UI powered by Streamlit
+- Saves:
+  - uploaded images (`uploads/`)
+  - generated stories (`generated/stories/`)
+  - generated covers (`generated/covers/`)
 
 ---
 
@@ -28,11 +32,16 @@ Built with **FastAPI** and **Streamlit**.
 
 ##  Project Structure
 
+- `uploads/` — uploaded user images  
+- `generated/` — AI-generated output  
+  - `covers/` — saved DALL·E cover images  
+  - `stories/` — saved GPT-generated stories  
 - `logs/` — stores application logs  
-  - `app.log`
-- `uploads/` — temporary folder for uploaded files
+  - `app.log` — main log file
 - `src/` — main source code  
   - `app.py` — FastAPI app  
+  - `config.py` — environment config loader  
+  - `prompts.py` — centralized prompt templates  
   - `schemas.py` — response models  
   - `services/` — generation logic  
     - `story_generator.py` — GPT-based story generation  
@@ -85,9 +94,33 @@ pip install -r requirements.txt
 
 4. Set up environment variables:
 
-Copy `.env.example` to `.env` and add your OpenAI key.
+Copy .env.example to .env and add your OpenAI key and model names:
+
+- OPENAI_API_KEY=your-openai-key
+- API_URL=http://localhost:8000
+- HOST=0.0.0.0
+- PORT=8000
+- BLIP_MODEL=Salesforce/blip-image-captioning-base
+- GPT_MODEL=gpt-4o-mini
+- DALLE_MODEL=dall-e-3
 
 ---
+
+##  How It Works: Two Independent Processes
+
+This project consists of **two separate processes**, each running independently:
+
+| Component | Technology | Purpose |
+|-----------|------------|---------|
+| **Backend** | FastAPI | Generates stories and cover images based on uploaded images |
+| **Frontend** | Streamlit | Provides a simple browser-based interface to interact with the backend |
+
+They communicate via HTTP. The frontend sends image uploads to the backend and receives generated content in response.
+
+> Make sure the FastAPI server is running **before** launching the Streamlit UI.
+
+---
+
 
 ## Running the App
 
@@ -144,9 +177,15 @@ streamlit run streamlit_app.py
 
 **What You’ll See:**
 
-- Image upload field
-- Button to generate story and cover
-- Displayed story
-- Displayed cover image
-- Error handling if backend fails
+- Two tabs:
+  - Upload Image – for uploading a picture and generating story + cover
+  - Saved Content – to browse previously generated stories and covers
 
+
+## Saved Outputs
+
+- Uploaded files are stored in uploads/
+- Generated cover images are saved in generated/covers/
+- Generated stories are saved as .txt files in generated/stories/
+
+> Streamlit UI also includes a section to view previously generated covers and stories.
