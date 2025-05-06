@@ -178,8 +178,8 @@ streamlit run streamlit_app.py
 **What You’ll See:**
 
 - Two tabs:
-  - Upload Image – for uploading a picture and generating story + cover
-  - Saved Content – to browse previously generated stories and covers
+  - Generate new – for uploading a picture and generating story + cover
+  - View Archive – to browse previously generated stories and covers
 
 
 ## Saved Outputs
